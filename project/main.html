@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DannY Sounds </title>
+  <!-- bootstrap 5 css -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous" />
+  <!-- BOX ICONS CSS-->
+  <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css" rel="stylesheet" />
+  <!-- custom css -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <div class="layoutss">
+  <div class="side-navbar active-nav d-flex justify-content-between flex-wrap flex-column" id="sidebar">
+    <ul class="nav flex-column text-white w-100">
+      <a href="#" class="nav-link h3 text-white my-2">
+        D musics</br>
+      </a>
+      <li href="#" class="nav-link">
+        <i class="bx bxs-dashboard"></i>
+        <span class="mx-2">Home</span>
+      </li>
+      <li href="#" class="nav-link">
+        <i class="bx bx-user-check"></i>
+        <span class="mx-2">Profile</span>
+      </li>
+      <li href="#" class="nav-link">
+        <i class="bx bx-conversation"></i>
+        <span class="mx-2">Contact</span>
+      </li>
+    </ul>
+
+
+  </div>
+  <div class="second">
+  <!-- Main Wrapper -->
+  <div class="p-5 my-container active-cont">
+    <!-- Top Nav -->
+    <div class="row p-5 " >
+        <div class="col "><div class="card text-center" style="width: 18rem;">
+            <img class="card-img-top" src="img/img1.jpeg" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">Thenmozhi</h5>
+              <p class="card-text">Dhanush</p>
+              <a href="#" class="btn btn-primary ">PLAY</a>
+            </div>
+          </div></div>
+        <div class="col"><div class="card text-center" style="width: 18rem;">
+            <img class="card-img-top" src="img/img2.jpeg" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">Mass Marano</h5>
+              <p class="card-text">Anirudh</p>
+              <a href="#" class="btn btn-primary text-center">PLAY</a>
+            </div>
+          </div></div>
+        <div class="col"><div class="card text-center" style="width: 18rem;">
+            <img class="card-img-top" src="img/img3.jpeg" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">Vellai Illa Pattadhari</h5>
+              <p class="card-text">Anirudh</p>
+              <a href="#" class="btn btn-primary text-center">PLAY</a>
+            </div>
+          </div></div>
+    </div>
+    <!--End Top Nav -->
+    <h3 class="text-dark p-3">
+    </h3>
+    </div>
+
+    <div class="player">
+      <div class="sub_player">
+      <iframe class="abc"  src="index.html" style="padding-left:50px;width:100%;"></iframe>
+    </div></div>
+</div>
+  </div>
+<style>
+
+.player{
+  display: absolute;
+  position: sticky;
+  margin-left:-50px;
+  bottom: 0px;
+  border: 1px solid #100901;
+}
+.sub_player{
+  display:flex ;
+
+}
+
+.player
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    min-height: 100vh;
+    background-color: #fff;
+  }
+  
+  .side-navbar {
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    margin-left: -300px;
+    background-color: #100901;
+    transition: 0.5s;
+  }
+  
+  .nav-link:active,
+  .nav-link:focus,
+  .nav-link:hover {
+    background-color: #ffffff26;
+  }
+  
+  .my-container {
+    transition: 0.4s;
+  }
+  
+  .active-nav {
+    margin-left: 0;
+  }
+  
+  /* for main section */
+  .active-cont {
+    margin-left: 250px;
+  }
+  
+  #menu-btn {
+    background-color: #100901;
+    color: #fff;
+    margin-left: -62px;
+  }
+  
+  .my-container input {
+    border-radius: 2rem;
+    padding: 2px 20px;
+  }
+  </style>
+   <script type="text/javascript">
+    let previous = document.querySelector('#pre');
+let play = document.querySelector('#play');
+let next = document.querySelector('#next');
+let title = document.querySelector('#title');
+let recent_volume = document.querySelector('#volume');
+let volume_show = document.querySelector('#volume_show');
+let slider = document.querySelector('#duration_slider');
+let show_duration = document.querySelector('#show_duration');
+let track_image = document.querySelector('#track_image');
+let auto_play = document.querySelector('#auto');
+let present = document.querySelector('#present');
+let total = document.querySelector('#total');
+let artist = document.querySelector('#artist');
+
+
+let timer;
+let autoplay = 0;
+
+let index_no = 0;
+let Playing_song = false;
+
+//create a audio Element
+let track = document.createElement('audio');
+
+
+//All songs list
+let All_song = [{
+    name: "first song",
+    path: "music/song1.mp3",
+    img: "img/img1.jpg",
+    singer: "1"
+},
+{
+    name: "second song",
+    path: "music/song2.mp3",
+    img: "img/img2.jpg",
+    singer: "2"
+},
+{
+    name: "third song",
+    path: "music/song3.mp3",
+    img: "img/img3.jpg",
+    singer: "3"
+}
+];
+
+
+// All functions
+
+
+// function load the track
+function load_track(index_no) {
+clearInterval(timer);
+reset_slider();
+
+track.src = All_song[index_no].path;
+title.innerHTML = All_song[index_no].name;
+track_image.src = All_song[index_no].img;
+artist.innerHTML = All_song[index_no].singer;
+track.load();
+
+timer = setInterval(range_slider, 1000);
+total.innerHTML = All_song.length;
+present.innerHTML = index_no + 1;
+}
+
+load_track(index_no);
+
+
+//mute sound function
+function mute_sound() {
+track.volume = 0;
+volume.value = 0;
+volume_show.innerHTML = 0;
+}
+
+
+// checking.. the song is playing or not
+function justplay() {
+if (Playing_song == false) {
+    playsong();
+
+} else {
+    pausesong();
+}
+}
+
+
+// reset song slider
+function reset_slider() {
+slider.value = 0;
+}
+
+// play song
+function playsong() {
+track.play();
+Playing_song = true;
+play.innerHTML = '<i class="fa fa-pause" aria-hidden="true"></i>';
+}
+
+//pause song
+function pausesong() {
+track.pause();
+Playing_song = false;
+play.innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
+}
+
+
+// next song
+function next_song() {
+if (index_no < All_song.length - 1) {
+    index_no += 1;
+    load_track(index_no);
+    playsong();
+} else {
+    index_no = 0;
+    load_track(index_no);
+    playsong();
+
+}
+}
+
+
+// previous song
+function previous_song() {
+if (index_no > 0) {
+    index_no -= 1;
+    load_track(index_no);
+    playsong();
+
+} else {
+    index_no = All_song.length;
+    load_track(index_no);
+    playsong();
+}
+}
+
+
+// change volume
+function volume_change() {
+volume_show.innerHTML = recent_volume.value;
+track.volume = recent_volume.value / 100;
+}
+
+// change slider position 
+function change_duration() {
+slider_position = track.duration * (slider.value / 100);
+track.currentTime = slider_position;
+}
+
+// autoplay function
+function autoplay_switch() {
+if (autoplay == 1) {
+    autoplay = 0;
+    auto_play.style.background = "rgba(255,255,255,0.2)";
+} else {
+    autoplay = 1;
+    auto_play.style.background = "#FF8A65";
+}
+}
+
+
+function range_slider() {
+let position = 0;
+
+// update slider position
+if (!isNaN(track.duration)) {
+    position = track.currentTime * (100 / track.duration);
+    slider.value = position;
+}
+
+
+// function will run when the song is over
+if (track.ended) {
+    play.innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
+    if (autoplay == 1) {
+        index_no += 1;
+        load_track(index_no);
+        playsong();
+    }
+}
+}
+
+  </script>
+ 
+ <style></style> 
+ <!-- bootstrap js -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+</body>
+
+</html>
